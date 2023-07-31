@@ -1,6 +1,8 @@
 import createElement from '../helpers/domOperations.js';
 import convertISOtoDate from '../helpers/convertISOtoDate.js';
 import note from '../../constants/noteFields.js';
+import { showUpdateNoteModal } from './modals/noteModal.js';
+import { getNote } from './noteService.js';
 
 function createHeader() {
     let headerRow = '<tr>';
@@ -13,7 +15,11 @@ function createHeader() {
         headerRow += th;
     });
 
-    headerRow += '</tr>';
+    headerRow += `<th>
+        <i class="fa-solid fa-box-archive"></i>
+        <i class="fa-solid fa-trash"></i>
+    </th>
+    </tr>`;
     return headerRow;
 }
 
@@ -31,7 +37,7 @@ function createBody(notes) {
 }
 
 function createNote(note) {
-    let noteElement = '<tr>';
+    let noteElement = `<tr data-id='${note._id}'>`;
 
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
@@ -45,8 +51,29 @@ function createNote(note) {
         }
     });
 
-    noteElement += '</tr>';
+    noteElement += `<td>
+        <i class="fa-solid fa-pencil update-btn"></i>
+        <i class="fa-solid fa-box-archive archive-btn"></i>
+        <i class="fa-solid fa-trash delete-btn"></i></td>
+    </tr>`;
     return noteElement;
+}
+
+function handleButtonsClick(e) {
+    const targetButton = e.target;
+
+    if (targetButton.classList.contains('update-btn')) {
+        const targetRow = targetButton.parentNode.parentNode;
+        const targetNote = getNote(targetRow.dataset.id);
+        console.log(targetNote);
+        showUpdateNoteModal(targetNote);
+    } else if (targetButton.classList.contains('archive-btn')) {
+        const targetRow = targetButton.parentNode.parentNode;
+        console.log(targetRow);
+    } else if (targetButton.classList.contains('delete-btn')) {
+        const targetRow = targetButton.parentNode.parentNode;
+        console.log(targetRow);
+    }
 }
 
 export default function createMainTable(notes) {
@@ -57,6 +84,7 @@ export default function createMainTable(notes) {
 
     tableHead.insertAdjacentHTML('beforeend', createHeader(notes[0]));
     tableBody.insertAdjacentHTML('beforeend', createBody(notes));
+    tableBody.addEventListener('click', handleButtonsClick);
     table.append(tableHead, tableBody);
     container.append(table);
 

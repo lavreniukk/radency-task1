@@ -1,6 +1,6 @@
 import createMainTable from "./components/mainTable.js";
 import { notes } from "./helpers/mockData.js";
-import { createNewNoteButton } from "./components/modals/newNoteModal.js";
+import { createNewNoteButton } from "./components/modals/noteModal.js";
 
 class App {
     static root = document.getElementById('root');
