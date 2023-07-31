@@ -1,7 +1,8 @@
 import createElement from '../helpers/domOperations.js';
 import convertISOtoDate from '../helpers/convertISOtoDate.js';
+import note from '../../constants/noteFields.js';
 
-function createHeader(note) {
+function createHeader() {
     let headerRow = '<tr>';
 
     Object.keys(note).map((key) => {
