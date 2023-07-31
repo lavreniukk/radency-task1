@@ -1,8 +1,9 @@
-//functionality for main table with notes
 import createElement from '../helpers/domOperations.js';
+import convertISOtoDate from '../helpers/convertISOtoDate.js';
 
 function createHeader(note) {
     let headerRow = '<tr>';
+
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
             return;
@@ -10,28 +11,40 @@ function createHeader(note) {
         const th = `<th>${key}</th>`;
         headerRow += th;
     });
+
     headerRow += '</tr>';
     return headerRow;
 }
 
 function createBody(notes) {
     let bodyString = '';
+
     notes.map((note) => {
+        if (note.isArchived) {
+            return;
+        }
         bodyString += createNote(note);
-    })
+    });
+
     return bodyString;
 }
 
 function createNote(note) {
     let noteElement = '<tr>';
+
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
             return;
         }
-        const td = `<td>${note[key]}</td>`;
-        noteElement += td;
-    })
-    noteElement += '</tr>'
+
+        if (key === 'created') {
+            noteElement += `<td >${convertISOtoDate(note[key])}</td>`;
+        } else {
+            noteElement += `<td >${note[key]}</td>`;
+        }
+    });
+
+    noteElement += '</tr>';
     return noteElement;
 }
 
