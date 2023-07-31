@@ -1,17 +1,33 @@
-//import { notes } from '../helpers/mockData.js';
-import createElement from '../helpers/domOperations.js';
-import showNewNoteModal from './modal/newNoteModal.js';
+import { notes } from '../helpers/mockData.js';
+import createMainTable from './mainTable.js';
+import extractDateFromContent from '../helpers/extractDate.js';
 
-// let notesLocal = notes;
+let notesLocal = notes;
 
-// function createNote() {
-//     notesLocal.push();
-// }
+function updateMainTable() {
+    const table = document.querySelector('table.notes__table');
+    table.remove();
 
-export default function createNewNoteButton() {
-    const newNoteBtn = createElement({htmlTag: 'button', className: 'notes__button'});
-    newNoteBtn.innerText = 'Create Note';
-    newNoteBtn.addEventListener('click', showNewNoteModal);
+    const newTable = createMainTable(notesLocal);
+    const root = document.getElementById('root');
 
-    return newNoteBtn;
+    root.insertBefore(newTable, root.firstChild);
+}
+
+export function submitNewNote(e) {
+    e.preventDefault();
+
+    const form = document.querySelector('form#add-note');
+    const newNote = {
+        _id: notesLocal[notesLocal.length - 1]._id + 1,
+        name: form.name.value,
+        created: new Date().toISOString(),
+        category: form.category.value,
+        content: form.content.value,
+        dates: extractDateFromContent(form.content.value),
+        isArchived: false
+    }
+
+    notesLocal.push(newNote);
+    updateMainTable();
 }
