@@ -1,0 +1,1 @@
+//functionality for modal windows
