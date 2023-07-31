@@ -1,4 +1,4 @@
-export function createElement({ htmlTag, className, attributes = {} }) {
+export default function createElement({ htmlTag, className, attributes = {} }) {
     const element = document.createElement(htmlTag);
 
     if (className) {
@@ -9,9 +9,4 @@ export function createElement({ htmlTag, className, attributes = {} }) {
     Object.keys(attributes).forEach(key => element.setAttribute(key, attributes[key]));
 
     return element;
-}
-export function createButton(onClick) {
-    const createNoteButton = createElement({ htmlTag: 'button' });
-    createNoteButton.addEventListener('click', onClick);
-    return createNoteButton;
 }

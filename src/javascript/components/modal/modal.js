@@ -1,5 +1,4 @@
-//functionality for modal windows
-import createElement from "../../helpers/domOperations";
+import createElement from "../../helpers/domOperations.js";
 
 function hideModal() {
     const modal = document.getElementById('modal');
@@ -24,13 +23,14 @@ function createModalHeader(title, onClose) {
     return headerElement;
 }
 
-function createModal({ title, body, onClose }) {
+function createModal({ title, bodyElement, onClose }) {
     const modal = createElement({ htmlTag: 'div', className: 'modal'});
     const modalContainer = createElement({ htmlTag: 'div', className: 'modal__container'});
     const header = createModalHeader(title, onClose);
-
-    modalContainer.append(header, body);
+    
+    modalContainer.append(header, bodyElement);
     modal.append(modalContainer);
+    modal.id = 'modal';
 
     return modal;
 }
