@@ -1,0 +1,1 @@
+//functionality for summary table, which counts notes by category
