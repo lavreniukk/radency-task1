@@ -7,7 +7,7 @@ class App {
     static startApp() {
         try {
             const notesElement = createMainTable(notes);
-            App.root.appendChild(notesElement);
+            App.root.append(notesElement);
         } catch (error) {
             //
         }

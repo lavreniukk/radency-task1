@@ -1,4 +1,3 @@
-//functionality for main table with notes
 import createElement from '../helpers/domOperations.js';
 
 function createHeader(note) {
@@ -18,7 +17,7 @@ function createBody(notes) {
     let bodyString = '';
     notes.map((note) => {
         bodyString += createNote(note);
-    })
+    });
     return bodyString;
 }
 
@@ -30,8 +29,8 @@ function createNote(note) {
         }
         const td = `<td>${note[key]}</td>`;
         noteElement += td;
-    })
-    noteElement += '</tr>'
+    });
+    noteElement += '</tr>';
     return noteElement;
 }
 
