@@ -2,8 +2,9 @@ import createElement from '../helpers/domOperations.js';
 import convertISOtoDate from '../helpers/convertISOtoDate.js';
 import note from '../../constants/noteFields.js';
 import { showUpdateNoteModal } from './modals/noteModal.js';
-import { archiveNote, deleteNote, getNote } from './noteService.js';
+import { archiveNote, deleteNote, getNote, notesLocal } from './noteService.js';
 import { archiveAll, deleteAll } from './noteService.js';
+import { updateSummaryTable } from './summaryTable.js';
 
 function createHeader() {
     //let headerRow = '<tr><th></th>'; after adding icons
@@ -13,8 +14,7 @@ function createHeader() {
         if (key === 'isArchived' || key === '_id') {
             return;
         }
-        const th = `<th>${key}</th>`;
-        headerRow += th;
+        headerRow += `<th>${key}</th>`;
     });
 
     headerRow += `</tr>`;
@@ -68,10 +68,13 @@ function handleButtonsClick(e) {
     } else if (targetButton.classList.contains('archive-btn')) {
         const targetRow = targetButton.parentNode.parentNode;
         archiveNote(targetRow.dataset.id);
-
+        updateMainTable();
+        updateSummaryTable();
     } else if (targetButton.classList.contains('delete-btn')) {
         const targetRow = targetButton.parentNode.parentNode;
         deleteNote(targetRow.dataset.id);
+        updateMainTable();
+        updateSummaryTable();
     }
 }
 
@@ -83,8 +86,16 @@ export default function createMainTable(notes) {
     const deleteAllBtn = createElement({ htmlTag: 'i', className: 'fa-solid fa-trash'});
     const archiveAllBtn = createElement({ htmlTag: 'i', className: 'fa-solid fa-box-archive'});
 
-    deleteAllBtn.addEventListener('click', deleteAll);
-    archiveAllBtn.addEventListener('click', archiveAll);
+    deleteAllBtn.addEventListener('click', () => {
+        deleteAll();
+        updateMainTable();
+        updateSummaryTable();
+    });
+    archiveAllBtn.addEventListener('click', () => {
+        archiveAll();
+        updateMainTable();
+        updateSummaryTable();
+    });
 
     tableHead.insertAdjacentHTML('beforeend', createHeader());
     thElem.append(archiveAllBtn, deleteAllBtn);
@@ -95,4 +106,14 @@ export default function createMainTable(notes) {
     table.append(tableHead, tableBody);
 
     return table;
+}
+
+export function updateMainTable() {
+    const table = document.querySelector('table.notes__table');
+    table.remove();
+
+    const newTable = createMainTable(notesLocal);
+    const root = document.getElementById('root');
+
+    root.insertBefore(newTable, root.firstChild);
 }
