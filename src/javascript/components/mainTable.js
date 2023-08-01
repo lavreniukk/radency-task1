@@ -2,7 +2,7 @@ import createElement from '../helpers/domOperations.js';
 import convertISOtoDate from '../helpers/convertISOtoDate.js';
 import note from '../../constants/noteFields.js';
 import { showUpdateNoteModal } from './modals/noteModal.js';
-import { deleteNote, getNote } from './noteService.js';
+import { archiveNote, deleteNote, getNote } from './noteService.js';
 
 function createHeader() {
     let headerRow = '<tr>';
@@ -68,7 +68,7 @@ function handleButtonsClick(e) {
         showUpdateNoteModal(targetNote);
     } else if (targetButton.classList.contains('archive-btn')) {
         const targetRow = targetButton.parentNode.parentNode;
-        const targetNote = getNote(targetRow.dataset.id);
+        archiveNote(targetRow.dataset.id);
 
     } else if (targetButton.classList.contains('delete-btn')) {
         const targetRow = targetButton.parentNode.parentNode;
