@@ -10,18 +10,14 @@ class App {
     static root = document.getElementById('root');
 
     static startApp() {
-        try {
-            const notesElement = createMainTable(notes, false);
-            const btnContainer = createElement({htmlTag: 'div', className: 'notes__btn-container'});
-            const createNoteBtn = createNewNoteButton();
-            const changeShowStatusBtn = createChangeShowStatusBtn();
-            const summaryTable = createSummaryTable(countByCategories(notes));
-            
-            btnContainer.append(createNoteBtn, changeShowStatusBtn);
-            App.root.append(notesElement, btnContainer, summaryTable);
-        } catch (error) {
-            //
-        }
+        const notesElement = createMainTable(notes, false);
+        const btnContainer = createElement({htmlTag: 'div', className: 'notes__btn-container'});
+        const createNoteBtn = createNewNoteButton();
+        const changeShowStatusBtn = createChangeShowStatusBtn();
+        const summaryTable = createSummaryTable(countByCategories(notes));
+        
+        btnContainer.append(createNoteBtn, changeShowStatusBtn);
+        App.root.append(notesElement, btnContainer, summaryTable);
     }
 }
 
