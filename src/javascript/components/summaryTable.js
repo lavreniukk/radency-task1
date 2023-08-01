@@ -4,10 +4,10 @@ import summary from '../../constants/summaryColumns.js';
 import { notesLocal, countByCategories } from '../components/noteService.js';
 
 function createSummHeader() {
-    let headerRow = '<tr>';
+    let headerRow = '<tr class="table_row">';
 
     Object.values(summary).map((value) => {
-        headerRow += `<th>${value}</th>`;
+        headerRow += `<th class="table_header_cell">${value}</th>`;
     });
 
     headerRow += '</tr>';
@@ -27,17 +27,17 @@ function createSummBody(data) {
 }
 
 function createRow(cell) {
-    let row = '<tr>';
+    let row = '<tr class="table_row">';
 
     Object.values(cell).map((value) => {
-        row += `<td>${value}</td>`
+        row += `<td class="table_body_cell">${value}</td>`
     });
 
     return row;
 }
 
 export function updateSummaryTable() {
-    const table = document.querySelector('table.summary__table');
+    const table = document.querySelector('div.summary__container');
     table.remove();
 
     const newTable = createSummaryTable(countByCategories(notesLocal));
@@ -47,13 +47,15 @@ export function updateSummaryTable() {
 }
 
 export function createSummaryTable(data) {
+    const container = createElement({ htmlTag: 'div', className: 'summary__container'});
     const table = createElement({ htmlTag: 'table', className: 'summary__table'});
-    const tableHead = createElement({ htmlTag: 'thead', className: 'summary__table_head'});
+    const tableHead = createElement({ htmlTag: 'thead', className: 'summary__table_header'});
     const tableBody = createElement({ htmlTag: 'tbody', className: 'summary__table_body'});
 
     tableHead.insertAdjacentHTML('beforeend', createSummHeader());
     tableBody.insertAdjacentHTML('beforeend', createSummBody(data));
     table.append(tableHead, tableBody);
 
-    return table;
+    container.append(table);
+    return container;
 }

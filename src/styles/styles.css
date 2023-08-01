@@ -1,0 +1,21 @@
+@import 'modals.css';
+@import 'tables.css';
+@import 'buttons.css';
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}

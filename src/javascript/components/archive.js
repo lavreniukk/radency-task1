@@ -2,6 +2,7 @@ import createElement from "../helpers/domOperations.js";
 import { updateMainTable } from "./mainTable.js";
 
 export let showArchived = false;
+
 export function createChangeShowStatusBtn() {
     const changeShowingBtn = createElement({htmlTag: 'button', className: 'notes__button'});
     changeShowingBtn.innerText = 'Show archived';
