@@ -58,7 +58,7 @@ export function submitNewNote(e) {
 
     const form = document.querySelector('form#add-note');
     const newNote = {
-        _id: notesLocal[notesLocal.length - 1]._id + 1,
+        _id: notesLocal.length !== 0 ? notesLocal[notesLocal.length - 1]._id + 1 : 1,
         name: form.name.value,
         created: new Date().toISOString(),
         category: form.category.value,
@@ -68,5 +68,6 @@ export function submitNewNote(e) {
     }
 
     notesLocal.push(newNote);
+    console.log(notesLocal);
     updateMainTable();
 }
