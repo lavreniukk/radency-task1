@@ -9,13 +9,13 @@ import { showArchived } from './archive.js';
 
 function createHeader() {
     //let headerRow = '<tr><th></th>'; after adding icons
-    let headerRow = '<tr>';
+    let headerRow = '<tr class="table_row">';
 
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
             return;
         }
-        headerRow += `<th>${key}</th>`;
+        headerRow += `<th class="table_header_cell">${key}</th>`;
     });
 
     headerRow += `</tr>`;
@@ -41,7 +41,7 @@ function createBody(notes, showArchived) {
 }
 
 function createNote(note) {
-    let noteElement = `<tr data-id='${note._id}'>`;
+    let noteElement = `<tr class="table_row" data-id='${note._id}'>`;
 
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
@@ -49,13 +49,13 @@ function createNote(note) {
         }
 
         if (key === 'created') {
-            noteElement += `<td >${convertISOtoDate(note[key])}</td>`;
+            noteElement += `<td class="table_body_cell">${convertISOtoDate(note[key])}</td>`;
         } else {
-            noteElement += `<td >${note[key]}</td>`;
+            noteElement += `<td class="table_body_cell">${note[key]}</td>`;
         }
     });
 
-    noteElement += `<td>
+    noteElement += `<td class="table_body_btn-wrap">
         <i class="fa-solid fa-pencil update-btn"></i>
         <i class="fa-solid fa-box-archive archive-btn"></i>
         <i class="fa-solid fa-trash delete-btn"></i></td>
@@ -84,10 +84,11 @@ function handleButtonsClick(e) {
 }
 
 export default function createMainTable(notes, showArchived) {
+    const container = createElement({ htmlTag: 'div', className: 'notes__container'});
     const table = createElement({ htmlTag: 'table', className: 'notes__table'});
     const tableHead = createElement({ htmlTag: 'thead', className: 'notes__table_header'});
     const tableBody = createElement({ htmlTag: 'tbody', className: 'notes__table_body'});
-    const thElem = createElement({ htmlTag: 'th'});
+    const thElem = createElement({ htmlTag: 'th', className: 'table_header_cell table_header_btn-wrap'});
     const deleteAllBtn = createElement({ htmlTag: 'i', className: 'fa-solid fa-trash'});
     const archiveAllBtn = createElement({ htmlTag: 'i', className: 'fa-solid fa-box-archive'});
 
@@ -109,15 +110,15 @@ export default function createMainTable(notes, showArchived) {
 
     tableBody.addEventListener('click', handleButtonsClick);
     table.append(tableHead, tableBody);
+    container.append(table);
 
-    return table;
+    return container;
 }
 
 export function updateMainTable(showArchived) {
-    const table = document.querySelector('table.notes__table');
+    const table = document.querySelector('div.notes__container');
     table.remove();
 
-    console.log('hello');
     const newTable = createMainTable(notesLocal, showArchived);
     const root = document.getElementById('root');
 

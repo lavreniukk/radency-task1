@@ -16,10 +16,10 @@ export function createNewNoteButton() {
 
 export function showUpdateNoteModal(note) {
     const formElement = createElement({ htmlTag: 'form', className: 'modal__form'});
-    let innerForm = `<label for="name"> Name: </label>
-                        <input id="name" name="name" type="text" value="${note.name}">
-                        <label for="category"> Category: </label>
-                        <select id="category" name="category">`;
+    let innerForm = `<label class="modal__form_label" for="name"> Name: </label>
+                        <input class="modal__form_input" id="name" name="name" type="text" value="${note.name}">
+                        <label class="modal__form_label" for="category"> Category: </label>
+                        <select class="modal__form_input" id="category" name="category">`;
 
     Object.values(categories).map((category) => {
         if (note.category === category) {
@@ -29,8 +29,8 @@ export function showUpdateNoteModal(note) {
         }
     });        
     innerForm += `</select>
-                    <label for="content">Content</label>
-                    <textarea id="content" name="content" rows="5" cols="33">${note.content}</textarea>`;
+                    <label class="modal__form_label" for="content">Content</label>
+                    <textarea class="modal__form_input" id="content" name="content" rows="5" cols="33">${note.content}</textarea>`;
 
     const updateBtn = createElement({ htmlTag: 'button'});
     updateBtn.type = 'button';
@@ -45,7 +45,7 @@ export function showUpdateNoteModal(note) {
     formElement.insertAdjacentHTML('beforeend', innerForm);
     formElement.appendChild(updateBtn);
 
-    showModal({ title: 'New note', bodyElement: formElement});
+    showModal({ title: 'Update note', bodyElement: formElement});
 }
 
 function submitNewNote(e) {
@@ -69,19 +69,19 @@ function submitNewNote(e) {
 
 export function showNewNoteModal() {
     const formElement = createElement({ htmlTag: 'form', className: 'modal__form'});
-    let innerForm = `<label for="name"> Name: </label>
-                        <input id="name" name="name" type="text">
-                        <label for="category"> Category: </label>
-                        <select id="category" name="category">`;
+    let innerForm = `<label class="modal__form_label" for="name"> Name: </label>
+                        <input class="modal__form_input" id="name" name="name" type="text">
+                        <label class="modal__form_label" for="category"> Category: </label>
+                        <select class="modal__form_input" id="category" name="category">`;
 
     Object.values(categories).map((category) => {
         innerForm += `<option value='${category}'>${category}</option>`;
     });         
 
     innerForm += `</select>
-                    <label for="content">Content</label>
-                    <textarea id="content" name="content" rows="5" cols="33"></textarea>
-                <button type="submit" form="add-note">Add new note</button>`;
+                    <label class="modal__form_label" for="content">Content</label>
+                    <textarea class="modal__form_input" id="content" name="content" rows="5" cols="33"></textarea>
+                <button class="modal__form_btn" type="submit" form="add-note">Add new note</button>`;
     formElement.id = "add-note";
     formElement.insertAdjacentHTML('beforeend', innerForm);
     formElement.addEventListener('submit', submitNewNote);
