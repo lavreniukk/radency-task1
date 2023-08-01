@@ -1,4 +1,3 @@
-//write down 7 preprepared notes
 export const notes = [
     {
         _id: 1,

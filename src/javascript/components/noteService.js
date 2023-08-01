@@ -1,18 +1,7 @@
 import { notes } from '../helpers/mockData.js';
-import createMainTable from './mainTable.js';
 import extractDateFromContent from '../helpers/extractDate.js';
 
-let notesLocal = notes;
-
-function updateMainTable() {
-    const table = document.querySelector('table.notes__table');
-    table.remove();
-
-    const newTable = createMainTable(notesLocal);
-    const root = document.getElementById('root');
-
-    root.insertBefore(newTable, root.firstChild);
-}
+export let notesLocal = notes;
 
 export function getNote(noteId) {
     const index = notesLocal.findIndex((note) => note._id === parseInt(noteId));
@@ -34,52 +23,45 @@ export function updateNote(noteId) {
     Object.keys(updatedNote).map((key) => {
         notesLocal[index][key] = updatedNote[key];
     });
-
-    updateMainTable();
 }
 
 export function archiveNote(noteId) {
     const index = notesLocal.findIndex((note) => note._id === parseInt(noteId));
     notesLocal[index].isArchived = !notesLocal[index].isArchived;
-    
-    updateMainTable();
 }
 
 export function archiveAll() {
     notesLocal.map((note) => {
         note.isArchived = true;
     });
-
-    updateMainTable();
 }
 
 export function deleteNote(noteId) {
     const index = notesLocal.findIndex((note) => note._id === parseInt(noteId));
     notesLocal.splice(index, 1);
 
-    updateMainTable();
 }
 
 export function deleteAll() {
     notesLocal = [];
-
-    updateMainTable();
 }
 
-export function submitNewNote(e) {
-    e.preventDefault();
+export function countByCategories() {
+    const categoriesMap = new Map();
 
-    const form = document.querySelector('form#add-note');
-    const newNote = {
-        _id: notesLocal.length !== 0 ? notesLocal[notesLocal.length - 1]._id + 1 : 1,
-        name: form.name.value,
-        created: new Date().toISOString(),
-        category: form.category.value,
-        content: form.content.value,
-        dates: extractDateFromContent(form.content.value),
-        isArchived: false
-    }
+    notesLocal.map((note) => {
+        if (!categoriesMap.has(note.category)) {
+            categoriesMap.set(note.category, {active: 0, archived: 0});
+        }
 
+        const count = categoriesMap.get(note.category);
+        note.isArchived ? count.archived++ : count.active++;
+        categoriesMap.set(note.category, count);
+    });
+
+    return categoriesMap;
+} 
+
+export function addNote(newNote) {
     notesLocal.push(newNote);
-    updateMainTable();
 }
