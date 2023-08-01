@@ -1,0 +1,18 @@
+{
+  "name": "radency-task1",
+  "version": "1.0.0",
+  "description": "\"# radency-task1\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "lite-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.9.0",
+    "lite-server": "^2.6.1",
+    "prettier": "^3.0.0"
+  }
+}
