@@ -25,7 +25,6 @@ export function showUpdateNoteModal(note) {
             innerForm += `<option value='${category}'>${category}</option>`;
         }
     });        
-
     innerForm += `</select>
                     <label for="content">Content</label>
                     <textarea id="content" name="content" rows="5" cols="33">${note.content}</textarea>`;
@@ -42,7 +41,7 @@ export function showUpdateNoteModal(note) {
     showModal({ title: 'New note', bodyElement: formElement});
 }
 
-export function showNewNoteModal(onClose) {
+export function showNewNoteModal() {
     const formElement = createElement({ htmlTag: 'form', className: 'modal__form'});
     let innerForm = `<label for="name"> Name: </label>
                         <input id="name" name="name" type="text">
@@ -61,5 +60,5 @@ export function showNewNoteModal(onClose) {
     formElement.insertAdjacentHTML('beforeend', innerForm);
     formElement.addEventListener('submit', submitNewNote);
 
-    showModal({ title: 'New note', bodyElement: formElement, onClose: onClose});
+    showModal({ title: 'New note', bodyElement: formElement });
 }
