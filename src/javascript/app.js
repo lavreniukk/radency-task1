@@ -10,8 +10,7 @@ class App {
             const notesElement = createMainTable(notes);
             const createNoteBtn = createNewNoteButton();
             
-            notesElement.append(createNoteBtn);
-            App.root.append(notesElement);
+            App.root.append(notesElement, createNoteBtn);
         } catch (error) {
             //
         }

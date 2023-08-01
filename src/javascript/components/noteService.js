@@ -34,7 +34,6 @@ export function updateNote(noteId) {
     Object.keys(updatedNote).map((key) => {
         notesLocal[index][key] = updatedNote[key];
     });
-    console.log(notesLocal);
 
     updateMainTable();
 }
@@ -46,9 +45,23 @@ export function archiveNote(noteId) {
     updateMainTable();
 }
 
+export function archiveAll() {
+    notesLocal.map((note) => {
+        note.isArchived = true;
+    });
+
+    updateMainTable();
+}
+
 export function deleteNote(noteId) {
     const index = notesLocal.findIndex((note) => note._id === parseInt(noteId));
     notesLocal.splice(index, 1);
+
+    updateMainTable();
+}
+
+export function deleteAll() {
+    notesLocal = [];
 
     updateMainTable();
 }
@@ -68,6 +81,5 @@ export function submitNewNote(e) {
     }
 
     notesLocal.push(newNote);
-    console.log(notesLocal);
     updateMainTable();
 }
