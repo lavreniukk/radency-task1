@@ -30,7 +30,6 @@ function createRow(cell) {
     let row = '<tr>';
 
     Object.values(cell).map((value) => {
-        console.log(value);
         row += `<td>${value}</td>`
     });
 
