@@ -6,10 +6,10 @@ import { archiveNote, deleteNote, getNote, notesLocal } from './noteService.js';
 import { archiveAll, deleteAll } from './noteService.js';
 import { updateSummaryTable } from './summaryTable.js';
 import { showArchived } from './archive.js';
+import categories from '../../constants/noteCategories.js';
 
 function createHeader() {
-    //let headerRow = '<tr><th></th>'; after adding icons
-    let headerRow = '<tr class="table_row">';
+    let headerRow = '<tr class="table_row"><th class="table_header_cell"></th>';
 
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
@@ -42,6 +42,18 @@ function createBody(notes, showArchived) {
 
 function createNote(note) {
     let noteElement = `<tr class="table_row" data-id='${note._id}'>`;
+
+    switch (note.category) {
+        case categories.TaskCategory:
+            noteElement += '<td class="table_body_cell"><div class="table_body_icon"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></div></td>';
+            break;
+        case categories.IdeaCategory:
+            noteElement += '<td class="table_body_cell"><div class="table_body_icon"><i class="fa-solid fa-lightbulb" style="color: #ffffff;"></i></div></td>';
+            break;
+        case categories.ThoughtCategory:
+            noteElement += '<td class="table_body_cell"><div class="table_body_icon"><i class="fa-solid fa-head-side-virus" style="color: #ffffff;"></i></div></td>';
+            break;
+    }
 
     Object.keys(note).map((key) => {
         if (key === 'isArchived' || key === '_id') {
