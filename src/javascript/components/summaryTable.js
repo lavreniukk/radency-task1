@@ -2,9 +2,10 @@
 import createElement from "../helpers/domOperations.js";
 import summary from '../../constants/summaryColumns.js';
 import { notesLocal, countByCategories } from '../components/noteService.js';
+import categories from "../../constants/noteCategories.js";
 
 function createSummHeader() {
-    let headerRow = '<tr class="table_row">';
+    let headerRow = '<tr class="table_row"><th class="table_header_cell"></th>';
 
     Object.values(summary).map((value) => {
         headerRow += `<th class="table_header_cell">${value}</th>`;
@@ -28,6 +29,18 @@ function createSummBody(data) {
 
 function createRow(cell) {
     let row = '<tr class="table_row">';
+
+    switch (cell.category) {
+        case categories.TaskCategory:
+            row += '<td class="table_body_cell"><div class="table_body_icon"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></div></td>';
+            break;
+        case categories.IdeaCategory:
+            row += '<td class="table_body_cell"><div class="table_body_icon"><i class="fa-solid fa-lightbulb" style="color: #ffffff;"></i></div></td>';
+            break;
+        case categories.ThoughtCategory:
+            row += '<td class="table_body_cell"><div class="table_body_icon"><i class="fa-solid fa-head-side-virus" style="color: #ffffff;"></i></div></td>';
+            break;
+    }
 
     Object.values(cell).map((value) => {
         row += `<td class="table_body_cell">${value}</td>`
