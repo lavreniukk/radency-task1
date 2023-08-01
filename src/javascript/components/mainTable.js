@@ -3,8 +3,10 @@ import convertISOtoDate from '../helpers/convertISOtoDate.js';
 import note from '../../constants/noteFields.js';
 import { showUpdateNoteModal } from './modals/noteModal.js';
 import { archiveNote, deleteNote, getNote } from './noteService.js';
+import { archiveAll, deleteAll } from './noteService.js';
 
 function createHeader() {
+    //let headerRow = '<tr><th></th>'; after adding icons
     let headerRow = '<tr>';
 
     Object.keys(note).map((key) => {
@@ -15,11 +17,8 @@ function createHeader() {
         headerRow += th;
     });
 
-    headerRow += `<th>
-        <i class="fa-solid fa-box-archive"></i>
-        <i class="fa-solid fa-trash"></i>
-    </th>
-    </tr>`;
+    headerRow += `</tr>`;
+
     return headerRow;
 }
 
@@ -77,16 +76,23 @@ function handleButtonsClick(e) {
 }
 
 export default function createMainTable(notes) {
-    const container = createElement({ htmlTag: 'div', className: 'notes__root'});
     const table = createElement({ htmlTag: 'table', className: 'notes__table'});
     const tableHead = createElement({ htmlTag: 'thead', className: 'notes__table_header'});
     const tableBody = createElement({ htmlTag: 'tbody', className: 'notes__table_body'});
+    const thElem = createElement({ htmlTag: 'th'});
+    const deleteAllBtn = createElement({ htmlTag: 'i', className: 'fa-solid fa-trash'});
+    const archiveAllBtn = createElement({ htmlTag: 'i', className: 'fa-solid fa-box-archive'});
 
-    tableHead.insertAdjacentHTML('beforeend', createHeader(notes[0]));
+    deleteAllBtn.addEventListener('click', deleteAll);
+    archiveAllBtn.addEventListener('click', archiveAll);
+
+    tableHead.insertAdjacentHTML('beforeend', createHeader());
+    thElem.append(archiveAllBtn, deleteAllBtn);
+    tableHead.firstChild.appendChild(thElem);
     tableBody.insertAdjacentHTML('beforeend', createBody(notes));
+
     tableBody.addEventListener('click', handleButtonsClick);
     table.append(tableHead, tableBody);
-    container.append(table);
 
-    return container;
+    return table;
 }
